@@ -1,2 +1,2 @@
 # checklister
-chekc chekc
+check check
