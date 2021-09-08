@@ -1,4 +1,91 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+{{--
+@section('content')
+<div class="container">
+   <div class="row justify-content-center">
+      <div class="col-md-6">
+         <div class="card mx-4">
+            <div class="card-body p-4">
+               <h1>Register</h1>
+               <p class="text-muted">Create your account</p>
+               <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg class="c-icon">
+                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user') }}"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <input class="form-control" type="text" placeholder="Username">
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg class="c-icon">
+                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-envelope-open') }}"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Email" required autocomplete="email">
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg class="c-icon">
+                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required autocomplete="new-password">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg class="c-icon">
+                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                                </svg>
+                            </span>
+                        </div>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Retype your password" required autocomplete="new-password">
+                    </div>
+                    <button class="btn btn-block btn-success" type="submit">Create Account</button>
+                </form>
+            </div>
+            <div class="card-footer p-4">
+               <div class="row">
+                  <div class="col-6">
+                     <button class="btn btn-block btn-facebook" type="button"><span>Facebook</span></button>
+                  </div>
+                  <div class="col-6">
+                     <button class="btn btn-block btn-twitter" type="button"><span>Twitter</span></button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+@endsection --}}
+
+
 
 @section('content')
 <div class="container">
