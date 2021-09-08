@@ -1,2 +1,2 @@
 # checklister
-chekc chekc
+delete check
