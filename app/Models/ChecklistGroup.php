@@ -13,4 +13,8 @@ class ChecklistGroup extends Model
     protected $fillable =[
         'name'
     ];
+
+    function checklists(){
+        return $this->hasMany(\App\Models\Checklist::class);
+    }
 }
