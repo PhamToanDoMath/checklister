@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="company">Name</label>
-                                <input class="form-control" name="name" type="text" placeholder="Enter name here" />
+                                <input class="form-control" name="name" type="text" value="{{ old('name') }}" placeholder="Enter name here" />
                             </div>
                         </div>
                         <div class="card-footer">

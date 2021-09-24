@@ -97,7 +97,7 @@
                         @endforeach
 
                         <li class="c-sidebar-nav-item">
-                            <a class="c-sidebar-nav-link"  href="{{ route('admin.checklist_groups.checklists.create', $group->id) }}">
+                                <a class="c-sidebar-nav-link"  href="{{ route('admin.checklist_groups.checklists.create', $group->id) }}">
                                 <span class="c-sidebar-nav-icon"></span> 
                                 {{-- {!!$group->id!!} --}}
                                     {{ __('Create new checklist') }}

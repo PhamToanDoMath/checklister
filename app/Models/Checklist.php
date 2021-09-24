@@ -14,4 +14,9 @@ class Checklist extends Model
         'name','checklist_group_id'
     ];
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
 }
