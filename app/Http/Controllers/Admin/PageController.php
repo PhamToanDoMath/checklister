@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePageRequest;
+use App\Http\Requests\UpdatePageRequest;
+use App\Models\Page;
 
 class PageController extends Controller
 {
@@ -14,7 +17,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        $pages = Page::all();
+        return view('admin.pages.index', compact('pages'));
     }
 
     /**
@@ -24,7 +28,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.create');
     }
 
     /**
@@ -33,9 +37,10 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePageRequest $request)
     {
-        //
+        Page::create($request->validated());
+        return redirect()->route('home');
     }
 
     /**
@@ -55,9 +60,9 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
-        //
+        return view('admin.pages.edit', compact('page'));
     }
 
     /**
@@ -67,9 +72,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePageRequest $request, Page $page)
     {
-        //
+        $page->update($request->validated());
+        return redirect()->route('admin.pages.edit', $page)->with('message',__('Success'));
     }
 
     /**
