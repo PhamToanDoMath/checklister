@@ -1,7 +1,15 @@
-<table class="table table-responsive-sm" wire:sortable="updateTaskOrder">
+<table class="table table-responsive-sm">
     <tbody>
-        @foreach($tasks as $task)
+        @foreach($tasks->whereNull('user_id') as $task)
             <tr wire:sortable.item="{{$task->id}}" wire:key="task-{{$task->id}}">
+                <td>
+                    @if ($task->position > 0)
+                        <a href="#" wire:click.prevent="task_up({{$task->id}})" style="font-size:20px">&uarr;</a>
+                    @endif
+                    @if ($tasks->max('position') > $task->position)
+                    <a href="#" wire:click.prevent="task_down({{$task->id}})" style="font-size:20px">&darr;</a>
+                    @endif
+                </td>
                 <td>{{$task->name}}</td>
                 <td>{{$task->description}}</td>
                 <td>
