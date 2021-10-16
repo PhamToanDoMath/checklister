@@ -9,7 +9,6 @@ class TasksTable extends Component
 
     public $checklist;
     public function updateTaskOrder($tasks){
-        // dd($tasks);
         foreach ($tasks as $task){
             \App\Models\Task::find($task['value'])->update(['position' => $task['order']]);
         }

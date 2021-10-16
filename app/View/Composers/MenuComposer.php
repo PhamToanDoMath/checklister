@@ -10,7 +10,8 @@ class MenuComposer{
         $menu = (new \App\Services\MenuService())->get_menu();
         $view->with([
             'user_menu'=> $menu['user_menu'],
-            'admin_menu' => $menu['admin_menu']
+            'admin_menu' => $menu['admin_menu'],
+            'user_tasks_menu' => $menu['user_tasks_menu']
         ]);
     }
 }
