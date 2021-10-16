@@ -47,11 +47,11 @@ class MenuService {
                     'icon' => 'star',
                     'task_count' => $user_task->where('is_important',TRUE)->count()
                 ],
-                // 'planned' =>[
-                //     'name' => __('Planned'),
-                //     'icon' => 'calendar',
-                //     'task_count' => $user_task->whereNotNull('added_my_day_at')->count()
-                // ]
+                'planned' =>[
+                    'name' => __('Planned'),
+                    'icon' => 'calendar',
+                    'task_count' => $user_task->whereNotNull('due_date')->count()
+                ]
                 ];
         }
 

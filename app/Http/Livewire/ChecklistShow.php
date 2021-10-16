@@ -4,22 +4,30 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Task;
-
+use Carbon\Carbon;
 class ChecklistShow extends Component
 {
     public $checklist;
     public $opened_tasks = [];
     public $completed_tasks = [];
-    public $current_task;
+
+    public ?Task $current_task;
+    public $due_date_opened = FALSE;
+    public $due_date;
+
+    public $reminder_opened = FALSE;
+    public $reminder_date;
+    public $reminder_hour;
 
     public function mount(){
+        $this->reminder_date = now()->addDay()->toDateString();
+        $this->reminder_hour = now()->hour;
         $this->current_task = NULL;
         $this->completed_tasks = Task::where('checklist_id', $this->checklist->id)
         ->where('user_id', auth()->id())
         ->whereNotNull('completed_at')
         ->pluck('task_id')
         ->toArray();
-
     }
 
     public function render()
@@ -95,7 +103,7 @@ class ChecklistShow extends Component
         $this->current_task = $user_task;
     }
 
-    public function add_to_important($task_id)
+    public function mark_as_important($task_id)
     {
         $user_task = Task::where('user_id', auth()->id())
             ->where('id', $task_id)
@@ -120,8 +128,79 @@ class ChecklistShow extends Component
         $this->current_task = $user_task;
     }
 
-    public function set_due_date($task_id){
-        //
+
+    public function toggle_due_date($task_id){
+        $this->due_date_opened = !$this->due_date_opened;
     }
 
+    public function set_due_date($task_id, $due_date = NULL){
+        $user_task = Task::where('user_id', auth()->id())
+            ->where(function ($query) use ($task_id) {
+                $query->where('id', $task_id)
+                    ->orWhere('task_id', $task_id);
+            })
+            ->first();
+        if ($user_task) {
+            if (is_null($due_date)) {
+                $user_task->update(['due_date' => NULL]);
+                $this->emit('user_tasks_counter_change', 'planned', -1);
+            } else {
+                $user_task->update(['due_date' => $due_date]);
+                $this->emit('user_tasks_counter_change', 'planned');
+            }
+        } else {
+            $task = Task::find($task_id);
+            $user_task = $task->replicate();
+            $user_task['user_id'] = auth()->id();
+            $user_task['task_id'] = $task_id;
+            $user_task['due_date'] = $due_date;
+            $user_task->save();
+            $this->emit('user_tasks_counter_change', 'planned');
+        }
+        $this->current_task = $user_task;
+    }
+
+    public function updatedDueDate($value)
+    {
+        $this->set_due_date($this->current_task->id, $value);
+    }
+
+    public function toggle_reminder()
+    {
+        $this->reminder_opened = !$this->reminder_opened;
+    }
+
+    public function set_reminder($task_id, $reminder_date = NULL)
+    {
+        $user_task = Task::where('user_id', auth()->id())
+            ->where('id', $task_id)
+            ->first();
+        $reminder_at = NULL;
+        if ($reminder_date == 'custom') {
+            $reminder_at = Carbon::create($this->reminder_date)
+                ->setHour($this->reminder_hour)
+                ->setMinute(0)
+                ->setSecond(0)
+                ->toDateTimeString();
+        } else if (!is_null($reminder_date)) {
+            $reminder_at = Carbon::create($reminder_date)
+                ->setHour(now()->hour)
+                ->setMinute(0)
+                ->setSecond(0)
+                ->toDateTimeString();
+        }
+
+        if ($user_task) {
+            $user_task->update(['reminder_date' => $reminder_at]);
+            // dd($user_task);
+        } else {
+            $task = Task::find($task_id);
+            $user_task = $task->replicate();
+            $user_task['user_id'] = auth()->id();
+            $user_task['task_id'] = $task_id;
+            $user_task['reminder_date'] = $reminder_at;
+            $user_task->save();
+        }
+        $this->current_task = $user_task;
+    }
 }

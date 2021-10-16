@@ -22,7 +22,18 @@ class Task extends Model implements HasMedia
         'user_id',
         'completed_at',
         'added_my_day_at',
-        'is_important'
+        'is_important',
+        'due_date',
+        'reminder_date'
     ];
 
+    protected $dates = [
+        'date',
+        'reminder_date'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
